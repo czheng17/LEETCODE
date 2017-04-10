@@ -6,22 +6,25 @@ import java.util.Stack;
 
 public class L_114 {
 
-    void preorder(TreeNode root,TreeNode prev) {
-        if (root == null)
-            return;
-        TreeNode left = root.left;
-        TreeNode right = root.right;
-        // root
-        if (prev != null) {
-            prev.right = root;
-            prev.left = null;
-        }
-        prev = root;
-        preorder(left,prev);
-        preorder(right,prev);
-    }
-    public void flatten(TreeNode root) {
-        TreeNode prev = null;
-        preorder(root,prev);
-    }
+	public void flatten(TreeNode root) {
+		Stack<TreeNode> stack =new Stack<>();
+		TreeNode p = root;
+		
+		while(p!=null || !stack.isEmpty()){
+			
+			if(p.right!=null){
+				stack.push(p.right);
+			}
+			
+			if(p.left!=null){
+				p.right = p.left;
+				p.left=null;
+			}
+			else if(!stack.isEmpty()){
+				TreeNode tmp = stack.pop();
+				p.right = tmp;
+			}
+			p=p.right;
+		}
+	}
 }
